@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Mass spectrometry data
+data/raw/
+data/mzml/
+
+# IDE files
+.vscode/
+.idea/
