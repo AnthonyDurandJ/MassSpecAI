@@ -1,39 +1,27 @@
-# Import OpenMS classes
-# MSExperiment = container that holds all spectra/chromatograms
-# MzMLFile = class used to load mzML files
+from pathlib import Path
 from pyopenms import MSExperiment, MzMLFile
 
+MZML_PATH = Path("data/mzml/TC_2_Xlink.mzML")
 
-# Location of the mzML file we want to analyze
-MZML_PATH = "data/sample.mzML"
+if not MZML_PATH.exists():
+    print(f"ERROR: File not found: {MZML_PATH}")
+    exit()
 
-
-# Create an empty experiment object
-# Think of this as a container that will hold the entire run
 exp = MSExperiment()
 
+print("Loading mzML...")
+MzMLFile().load(str(MZML_PATH), exp)
 
-# Load the mzML file into the experiment container
-MzMLFile().load(MZML_PATH, exp)
+print(f"Loaded: {MZML_PATH}")
+print(f"Number of spectra: {exp.getNrSpectra()}")
+print(f"Number of chromatograms: {exp.getNrChromatograms()}")
 
-
-# Basic information about the file
-print("Loaded:", MZML_PATH)
-print("Number of spectra:", exp.getNrSpectra())
-print("Number of chromatograms:", exp.getNrChromatograms())
-
-
-# Display information for the first 5 spectra
 for i, spectrum in enumerate(exp.getSpectra()[:5]):
-
-    # Retention time in seconds
     rt = spectrum.getRT()
-
-    # MS level (1 = MS1, 2 = MS/MS, etc.)
     ms_level = spectrum.getMSLevel()
 
     print(
         f"Scan {i}: "
-        f"RT={rt:.2f} sec, "
-        f"MS level={ms_level}"
+        f"RT={rt:.2f} sec "
+        f"MS Level={ms_level}"
     )
